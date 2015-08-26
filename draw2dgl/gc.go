@@ -8,9 +8,9 @@ import (
 
 	"github.com/golang/freetype/raster"
 	"github.com/go-gl/gl/v2.1/gl"
-	"github.com/llgcode/draw2d"
-	"github.com/llgcode/draw2d/draw2dbase"
-	"github.com/llgcode/draw2d/draw2dimg"
+	"github.com/julianshen/draw2d"
+	"github.com/julianshen/draw2d/draw2dbase"
+	"github.com/julianshen/draw2d/draw2dimg"
 )
 
 func init() {

@@ -2,7 +2,7 @@ package draw2dimg
 
 import (
 	"github.com/golang/freetype/truetype"
-	"github.com/llgcode/draw2d"
+	"github.com/julianshen/draw2d"
 )
 
 // DrawContour draws the given closed contour at the given sub-pixel offset.

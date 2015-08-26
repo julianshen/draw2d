@@ -7,8 +7,8 @@ package linecapjoin
 import (
 	"image/color"
 
-	"github.com/llgcode/draw2d"
-	"github.com/llgcode/draw2d/samples"
+	"github.com/julianshen/draw2d"
+	"github.com/julianshen/draw2d/samples"
 )
 
 // Main draws the different line caps and joins.

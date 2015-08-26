@@ -17,9 +17,9 @@ import (
 	"github.com/golang/freetype/truetype"
 
 	"github.com/jung-kurt/gofpdf"
-	"github.com/llgcode/draw2d"
-	"github.com/llgcode/draw2d/draw2dbase"
-	"github.com/llgcode/draw2d/draw2dkit"
+	"github.com/julianshen/draw2d"
+	"github.com/julianshen/draw2d/draw2dbase"
+	"github.com/julianshen/draw2d/draw2dkit"
 )
 
 const (

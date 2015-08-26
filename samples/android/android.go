@@ -8,9 +8,9 @@ import (
 	"image/color"
 	"math"
 
-	"github.com/llgcode/draw2d"
-	"github.com/llgcode/draw2d/draw2dkit"
-	"github.com/llgcode/draw2d/samples"
+	"github.com/julianshen/draw2d"
+	"github.com/julianshen/draw2d/draw2dkit"
+	"github.com/julianshen/draw2d/samples"
 )
 
 // Main draws a droid and returns the filename. This should only be
