@@ -16,6 +16,8 @@ import (
 
 	"github.com/golang/freetype/raster"
 	"github.com/golang/freetype/truetype"
+	expfont "golang.org/x/exp/shiny/font"
+	"golang.org/x/image/math/fixed"
 )
 
 // Painter implements the freetype raster.Painter and has a SetColor method like the RGBAPainter
@@ -128,7 +130,7 @@ func (gc *GraphicContext) loadCurrentFont() (*truetype.Font, error) {
 // going downwards.
 
 func (gc *GraphicContext) drawGlyph(glyph truetype.Index, dx, dy float64) error {
-	if err := gc.glyphBuf.Load(gc.Current.Font, int32(gc.Current.Scale), glyph, truetype.NoHinting); err != nil {
+	if err := gc.glyphBuf.Load(gc.Current.Font, fixed.Int26_6(gc.Current.Scale), glyph, expfont.HintingNone); err != nil {
 		return err
 	}
 	e0 := 0
@@ -156,14 +158,14 @@ func (gc *GraphicContext) CreateStringPath(s string, x, y float64) float64 {
 	for _, rune := range s {
 		index := font.Index(rune)
 		if hasPrev {
-			x += fUnitsToFloat64(font.Kerning(int32(gc.Current.Scale), prev, index))
+			x += fUnitsToFloat64(int32(font.Kern(fixed.Int26_6(gc.Current.Scale), prev, index)))
 		}
 		err := gc.drawGlyph(index, x, y)
 		if err != nil {
 			log.Println(err)
 			return startx - x
 		}
-		x += fUnitsToFloat64(font.HMetric(int32(gc.Current.Scale), index).AdvanceWidth)
+		x += fUnitsToFloat64(int32(font.HMetric(fixed.Int26_6(gc.Current.Scale), index).AdvanceWidth))
 		prev, hasPrev = index, true
 	}
 	return x - startx
@@ -186,9 +188,9 @@ func (gc *GraphicContext) GetStringBounds(s string) (left, top, right, bottom fl
 		index := font.Index(rune)
 		if hasPrev {
 
-			cursor += fUnitsToFloat64(font.Kerning(int32(gc.Current.Scale), prev, index))
+			cursor += fUnitsToFloat64(int32(font.Kern(fixed.Int26_6(gc.Current.Scale), prev, index)))
 		}
-		if err := gc.glyphBuf.Load(gc.Current.Font, int32(gc.Current.Scale), index, truetype.NoHinting); err != nil {
+		if err := gc.glyphBuf.Load(gc.Current.Font, fixed.Int26_6(gc.Current.Scale), index, expfont.HintingNone); err != nil {
 			log.Println(err)
 			return 0, 0, 0, 0
 		}
@@ -203,7 +205,7 @@ func (gc *GraphicContext) GetStringBounds(s string) (left, top, right, bottom fl
 				right = math.Max(right, x+cursor)
 			}
 		}
-		cursor += fUnitsToFloat64(font.HMetric(int32(gc.Current.Scale), index).AdvanceWidth)
+		cursor += fUnitsToFloat64(int32(font.HMetric(fixed.Int26_6(gc.Current.Scale), index).AdvanceWidth))
 		prev, hasPrev = index, true
 	}
 	return left, top, right, bottom

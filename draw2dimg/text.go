@@ -3,6 +3,7 @@ package draw2dimg
 import (
 	"github.com/golang/freetype/truetype"
 	"github.com/julianshen/draw2d"
+	"golang.org/x/image/math/fixed"
 )
 
 // DrawContour draws the given closed contour at the given sub-pixel offset.
@@ -42,7 +43,7 @@ func DrawContour(path draw2d.PathBuilder, ps []truetype.Point, dx, dy float64) {
 }
 
 func pointToF64Point(p truetype.Point) (x, y float64) {
-	return fUnitsToFloat64(p.X), -fUnitsToFloat64(p.Y)
+	return fUnitsToFloat64(int32(p.X)), -fUnitsToFloat64(int32(p.Y))
 }
 
 func fUnitsToFloat64(x int32) float64 {
@@ -70,7 +71,7 @@ type FontExtents struct {
 // Extents returns the FontExtents for a font.
 // TODO needs to read this https://developer.apple.com/fonts/TrueType-Reference-Manual/RM02/Chap2.html#intro
 func Extents(font *truetype.Font, size float64) FontExtents {
-	bounds := font.Bounds(font.FUnitsPerEm())
+	bounds := font.Bounds(fixed.Int26_6(font.FUnitsPerEm()))
 	scale := size / float64(font.FUnitsPerEm())
 	return FontExtents{
 		Ascent:  float64(bounds.YMax) * scale,
